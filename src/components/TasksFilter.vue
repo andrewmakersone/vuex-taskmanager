@@ -1,6 +1,6 @@
 <template>
   <div>
-    <select v-model="filter">
+    <select :value='filter' @change='updateFilter'>
       <option value="all">All</option>
       <option value="completed">Completed</option>
       <option value="not-completed">Not Completed</option>
@@ -11,16 +11,18 @@
 </template>
 
 <script>
+  import {mapState,mapMutations} from 'vuex'
   export default {
     name: "TasksFilter",
     computed: {
-      filter: {
-        get () {
-          return this.$store.state.filter
-        },
-        set (value) {
-          this.$store.commit('updateFilter', value)
-        }
+      ...mapState('tasks',['tasks', "filter"])
+    },
+    methods: {
+      ...mapMutations(['updateFilter']),
+      updateFilter(e) {
+          // this.$store.commit('tasks/updateFilter', e.target.value)
+        console.log(e.target.value);
+        this.updateFilter(e.target.value);
       }
     }
   }

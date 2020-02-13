@@ -15,7 +15,7 @@
       }
     },
     methods: {
-      ...mapMutations({
+      ...mapMutations('tasks',{
         addTask: 'addTask'
       }),
       submit() {
@@ -31,7 +31,7 @@
 
     },
     computed: {
-      ...mapGetters({
+      ...mapGetters('tasks',{
         tasksCount: 'getTasksCount'
       }),
     }

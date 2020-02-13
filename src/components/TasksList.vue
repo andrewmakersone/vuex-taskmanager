@@ -17,13 +17,13 @@
   export default {
     name: "TasksList",
     computed: {
-      ...mapGetters({
+      ...mapGetters('tasks', {
         tasks: 'getTasks',
         tasksCount: 'getTasksCount'
       })
     },
     methods: {
-      ...mapActions({
+      ...mapActions('tasks', {
         fetchTasks: 'fetchTasks'
       })
     },
