@@ -3,7 +3,6 @@ export default {
   state: {
     tasks: [],
     filter: 'all',
-    message: 'kek'
   },
 
   getters: {
@@ -13,9 +12,20 @@ export default {
     getTasksCount(state, getters) {
       return getters.getTasks.length;
     },
-    getFilter(state) {
-      return state.filter;
-    }
+    getFilteredTasks(state) {
+      return state.tasks.filter(t => {
+        if (state.filter === 'all') {
+          return t
+        } else if (state.filter === 'completed') {
+          return t.completed
+        } else if (state.filter === 'not-completed') {
+          return !t.completed
+        }
+      });
+    },
+    getFilteredTasksCount(state, getters) {
+      return getters.getFilteredTasks.length;
+    },
   },
 
   mutations: {
@@ -25,8 +35,13 @@ export default {
     addTask(state, newTask) {
       state.tasks.push(newTask);
     },
-    updateFilter (state, filter) {
-      state.filter = filter;
+    deleteTask(state, taskId) {
+      state.tasks = state.tasks.filter(task => {
+        return task.id !== taskId;
+      });
+    },
+    setFilter(state, selectedFilter) {
+      state.filter = selectedFilter;
     }
   },
 
@@ -36,6 +51,9 @@ export default {
       const fetchedTasks = await response.json();
 
       commit('updateTasks', fetchedTasks);
-    }
+    },
+    // async filterTaskList({commit}) {
+    //   commit('filterTaskList');
+    // }
   }
 }

@@ -6,14 +6,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: true,
-  state: {
-    filter: 'not-completed'
-  },
-  mutations: {
-    updateFilter (state, filter) {
-      state.filter = filter;
-    }
-  },
   modules: {
     tasks
   }

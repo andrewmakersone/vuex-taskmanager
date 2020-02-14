@@ -7,25 +7,31 @@
         <strong>{{task.id}}.</strong>
         <span>{{task.title}}</span>
       </span>
-      <button>&times;</button>
+      <button @click="removeTask(task.id)">&times;</button>
     </li>
   </ul>
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters, mapActions, mapMutations} from 'vuex'
   export default {
     name: "TasksList",
     computed: {
-      ...mapGetters('tasks', {
-        tasks: 'getTasks',
-        tasksCount: 'getTasksCount'
+      ...mapGetters('tasks',{
+        tasks: 'getFilteredTasks',
+        tasksCount: 'getFilteredTasksCount'
       })
     },
     methods: {
-      ...mapActions('tasks', {
+      ...mapActions('tasks',{
         fetchTasks: 'fetchTasks'
-      })
+      }),
+      ...mapMutations('tasks',{
+        deleteTask: 'deleteTask'
+      }),
+      removeTask(taskId) {
+        this.deleteTask(taskId);
+      }
     },
     async mounted() {
       await this.fetchTasks();
