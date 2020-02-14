@@ -13,6 +13,12 @@ export default {
       return getters.getTasks.length;
     },
     getFilteredTasks(state) {
+      // let inputs = document.getElementsByClassName('checkbox');
+      // for (let i = 0; i < inputs.length; i++) {
+      //   if (inputs[i].classList.contains('check'))
+      //   inputs[i].checked = !inputs[i].checked;
+      // }
+
       return state.tasks.filter(t => {
         if (state.filter === 'all') {
           return t
@@ -32,6 +38,9 @@ export default {
     updateTasks(state, fetchedTasks) {
       state.tasks = fetchedTasks;
     },
+    setFilter(state, selectedFilter) {
+      state.filter = selectedFilter;
+    },
     addTask(state, newTask) {
       state.tasks.push(newTask);
     },
@@ -40,8 +49,12 @@ export default {
         return task.id !== taskId;
       });
     },
-    setFilter(state, selectedFilter) {
-      state.filter = selectedFilter;
+    changeCompleteStatus(state, taskId) {
+      let taskIndex = state.tasks.findIndex((task) => {
+        return task.id === taskId;
+      });
+      let status = state.tasks[taskIndex].completed;
+      state.tasks[taskIndex].completed = !status;
     }
   },
 
@@ -52,8 +65,5 @@ export default {
 
       commit('updateTasks', fetchedTasks);
     },
-    // async filterTaskList({commit}) {
-    //   commit('filterTaskList');
-    // }
   }
 }

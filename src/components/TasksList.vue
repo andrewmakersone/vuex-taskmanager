@@ -3,9 +3,9 @@
     <span class="task-counter">Now you have: <strong>{{this.tasksCount}} tasks</strong></span>
     <li v-for="task in tasks" :key="task.id">
       <span>
-        <input type="checkbox">
+        <input type="checkbox" class="checkbox" @change="isCompleted(task.id)">
         <strong>{{task.id}}.</strong>
-        <span>{{task.title}}</span>
+        <span :class="{completed: task.completed}">{{task.title}}</span>
       </span>
       <button @click="removeTask(task.id)">&times;</button>
     </li>
@@ -27,8 +27,12 @@
         fetchTasks: 'fetchTasks'
       }),
       ...mapMutations('tasks',{
-        deleteTask: 'deleteTask'
+        deleteTask: 'deleteTask',
+        changeCompleteStatus: 'changeCompleteStatus'
       }),
+      isCompleted(taskId) {
+        this.changeCompleteStatus(taskId);
+      },
       removeTask(taskId) {
         this.deleteTask(taskId);
       }
@@ -68,6 +72,9 @@
       button {
         width: 25px;
         height: 25px;
+      }
+      .completed {
+        text-decoration: line-through;
       }
     }
   }
